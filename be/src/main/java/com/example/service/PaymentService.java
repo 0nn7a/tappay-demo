@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentService {
+    private static final int PRODUCT_AMOUNT = 100;
+    private static final String PRODUCT_NAME = "TapPay Sandbox 測試商品";
+
     private final TapPayClient tapPayClient;
 
     public PaymentService(TapPayClient tapPayClient) {
@@ -16,8 +19,8 @@ public class PaymentService {
     public PaymentResponse pay(PaymentRequest request) {
         return tapPayClient.pay(
                 request.prime(),
-                request.amount(),
-                "TapPay Sandbox 測試商品"
+                PRODUCT_AMOUNT,
+                PRODUCT_NAME
         );
     }
 }

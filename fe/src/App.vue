@@ -98,10 +98,7 @@ async function pay() {
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              prime: primeResult.card.prime,
-              amount: 100 
-            }),
+            body: JSON.stringify({ prime: primeResult.card.prime }),
           },
         )
 
