@@ -59,12 +59,7 @@ onMounted(() => {
 
   updateHandler = (update) => {
     cardReady.value = Boolean(update.canGetPrime)
-
-    if (cardReady.value) {
-      message.value = JSON.stringify(update, null, 2)
-    } else {
-      message.value = '請填寫測試卡片資料'
-    }
+    message.value = cardReady.value ? '卡片資料完整，可以付款' : '請填寫測試卡片資料'
   }
 
   TPDirect.card.onUpdate(updateHandler)
@@ -104,9 +99,14 @@ async function pay() {
 
         const data = await response.json()
         result.value = data
-        message.value = response.ok
-          ? '已收到 TapPay 回應，請確認交易結果'
-          : '付款請求失敗，請查看錯誤訊息'
+        
+        if (!response.ok) {
+          message.value = '付款請求失敗，請查看錯誤訊息'
+        } else if (data.success) {
+          message.value = `付款成功，交易編號：${data.recTradeId}`
+        } else {
+          message.value = `付款失敗：${data.message}`
+        }
       } catch (error) {
         message.value = `請求失敗：${error.message}`
       } finally {
@@ -123,7 +123,7 @@ async function pay() {
 <template>
   <main class="mx-auto p-10 flex flex-col items-center gap-2">
     <h1 class="mb-2 font-semibold text-2xl">TapPay Sandbox 測試</h1>
-    <p>測試商品：範例商品</p>
+    <p>測試商品：TapPay Sandbox 測試商品</p>
     <p>測試金額：NT$ 100</p>
 
     <form @submit.prevent="pay" class="my-6 flex flex-col">
