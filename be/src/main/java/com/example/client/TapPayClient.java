@@ -31,7 +31,10 @@ public class TapPayClient {
                 .build();
     }
 
-    public PaymentResponse pay(String prime, int amount, String details) {
+    public TapPayResponse payByPrime(String prime,
+                                      int amount,
+                                      String details,
+                                      Map<String, String> cardholder) {
         Map<String, Object> payload = Map.of(
                 "prime", prime,
                 "partner_key", partnerKey,
@@ -39,11 +42,7 @@ public class TapPayClient {
                 "amount", amount,
                 "currency", "TWD",
                 "details", details,
-                "cardholder", Map.of(
-                        "phone_number", "0912345678",
-                        "name", "Sandbox Tester",
-                        "email", "sandbox@example.com"
-                )
+                "cardholder", cardholder
         );
 
         TapPayResponse response = restClient.post()
@@ -52,12 +51,6 @@ public class TapPayClient {
                 .body(TapPayResponse.class);
 
         if (response == null) throw new IllegalStateException("TapPay 無回傳結果");
-
-        Integer status = response.status();
-        String message = response.msg() != null ? response.msg() : "無交易訊息";
-        String recTradeId = response.recTradeId();
-        boolean success = Integer.valueOf(0).equals(status);
-
-        return new PaymentResponse(status, message, recTradeId, success);
+        return response;
     }
 }
