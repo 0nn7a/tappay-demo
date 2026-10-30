@@ -2,8 +2,6 @@ package com.example.service;
 
 import com.example.client.TapPayClient;
 import com.example.dto.PaymentRequest;
-import com.example.dto.PaymentResponse;
-import com.example.dto.TapPayResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -24,16 +22,12 @@ public class PaymentService {
         this.tapPayClient = tapPayClient;
     }
 
-    public PaymentResponse pay(PaymentRequest request) {
-        TapPayResponse res = tapPayClient.payByPrime(
+    public Map<String, Object> pay(PaymentRequest request) {
+        return tapPayClient.payByPrime(
                 request.prime(),
                 PRODUCT_AMOUNT,
                 PRODUCT_NAME,
                 SANDBOX_CARDHOLDER
         );
-
-        String message = res.msg() != null ? res.msg() : "無交易訊息";
-        boolean success = Integer.valueOf(0).equals(res.status());
-        return new PaymentResponse(res.status(), message, res.recTradeId(), success);
     }
 }

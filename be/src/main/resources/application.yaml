@@ -6,6 +6,6 @@ server:
   port: 8080
 
 tappay:
-  api-url: https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime
+  base-url: https://sandbox.tappaysdk.com
   partner-key: ${TAPPAY_PARTNER_KEY}
   merchant-id: ${TAPPAY_MERCHANT_ID}
