@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.Map;
 
 @Component
@@ -16,16 +19,15 @@ public class TapPayClient {
     private final RestClient restClient;
 
     public TapPayClient(
+            RestClient.Builder builder,
             @Value("${tappay.base-url}") String baseUrl,
             @Value("${tappay.partner-key}") String partnerKey,
             @Value("${tappay.merchant-id}") String merchantId) {
         this.partnerKey = partnerKey;
         this.merchantId = merchantId;
-        this.restClient = RestClient.builder()
+        this.restClient = builder
                 .baseUrl(baseUrl)
-                .defaultHeader(
-                        HttpHeaders.CONTENT_TYPE,
-                        MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("x-api-key", partnerKey)
                 .build();
     }
