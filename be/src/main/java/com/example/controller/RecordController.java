@@ -1,7 +1,7 @@
 package com.example.controller;
 
-import com.example.client.TapPayClient;
 import com.example.dto.RecordRequest;
+import com.example.service.PaymentService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +12,19 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:5173")
 public class RecordController {
 
-    private final TapPayClient tapPayClient;
+    private final PaymentService paymentService;
 
-    public RecordController(TapPayClient tapPayClient) {
-        this.tapPayClient = tapPayClient;
+    public RecordController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/query")
     public Map<String, Object> query(@Valid @RequestBody RecordRequest request) {
-        return tapPayClient.queryRecord(request.recordId());
+        return paymentService.query(request.recordId());
     }
 
     @PostMapping("/refund")
     public Map<String, Object> refund(@Valid @RequestBody RecordRequest request) {
-        return tapPayClient.refund(request.recordId());
+        return paymentService.refund(request.recordId());
     }
 }

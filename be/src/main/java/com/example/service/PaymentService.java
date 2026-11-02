@@ -30,4 +30,12 @@ public class PaymentService {
                 SANDBOX_CARDHOLDER
         );
     }
+
+    public Map<String, Object> query(String recordId) {
+        return tapPayClient.queryRecord(recordId);
+    }
+
+    public Map<String, Object> refund(String recordId) {
+        return tapPayClient.refund(recordId);
+    }
 }
