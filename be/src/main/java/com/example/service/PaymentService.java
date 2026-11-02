@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.client.TapPayClient;
 import com.example.dto.PaymentRequest;
+import com.example.dto.RecordRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -31,11 +32,11 @@ public class PaymentService {
         );
     }
 
-    public Map<String, Object> query(String recordId) {
-        return tapPayClient.queryRecord(recordId);
+    public Map<String, Object> query(RecordRequest request) {
+        return tapPayClient.queryRecord(request.recordId());
     }
 
-    public Map<String, Object> refund(String recordId) {
-        return tapPayClient.refund(recordId);
+    public Map<String, Object> refund(RecordRequest request) {
+        return tapPayClient.refund(request.recordId());
     }
 }

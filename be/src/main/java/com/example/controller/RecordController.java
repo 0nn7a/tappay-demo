@@ -20,11 +20,11 @@ public class RecordController {
 
     @PostMapping("/query")
     public Map<String, Object> query(@Valid @RequestBody RecordRequest request) {
-        return paymentService.query(request.recordId());
+        return paymentService.query(request);
     }
 
     @PostMapping("/refund")
     public Map<String, Object> refund(@Valid @RequestBody RecordRequest request) {
-        return paymentService.refund(request.recordId());
+        return paymentService.refund(request);
     }
 }
